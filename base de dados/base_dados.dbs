@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="fit-app" id="Project_36880fb" template="Default" database="MySql" >
+	<schema name="fitsportbalsem_app" catalogname="fitsportbalsem_app" >
+		<table name="app_codigos" >
+			<column name="id" type="int" jt="4" mandatory="y" autoincrement="y" />
+			<column name="nome" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="tipo" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="cupao" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="criacao" type="timestamp" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="expira" type="timestamp" jt="93" mandatory="y" />
+			<column name="utilizacoes" type="int" jt="4" mandatory="y" unsigned="y" >
+				<defo>0</defo>
+			</column>
+			<column name="limite" type="int" jt="4" unsigned="y" />
+			<column name="desconto" type="int" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[em %]]></comment>
+			</column>
+			<index name="pk_app_codigos" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_app_codigos" unique="NORMAL" >
+				<column name="tipo" />
+			</index>
+			<index name="pk_app_codigos_0" unique="UNIQUE" >
+				<column name="cupao" />
+			</index>
+			<fk name="fk_app_codigos" to_schema="fitsportbalsem_app" to_table="app_codigos_tipo" delete_action="cascade" update_action="cascade" >
+				<fk_column name="tipo" pk="nome" />
+			</fk>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+		<table name="app_codigos_tipo" >
+			<column name="id" type="int" jt="4" mandatory="y" autoincrement="y" />
+			<column name="nome" type="varchar" length="200" jt="12" mandatory="y" />
+			<index name="pk_app_codigos_tipo" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_app_codigos_tipo_0" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+		<table name="app_historico" >
+			<column name="id" type="int" jt="4" mandatory="y" unsigned="y" autoincrement="y" />
+			<column name="revendedor" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="cliente" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="codigo" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="sku" type="int" length="200" jt="4" mandatory="y" unsigned="y" />
+			<column name="tipo" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="quantidade" type="int" jt="4" mandatory="y" unsigned="y" >
+				<defo>1</defo>
+			</column>
+			<column name="descricao" type="text" jt="-1" mandatory="y" />
+			<index name="pk_app_historico" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_app_historico" unique="NORMAL" >
+				<column name="revendedor" />
+			</index>
+			<index name="idx_app_historico_0" unique="NORMAL" >
+				<column name="cliente" />
+			</index>
+			<index name="idx_app_historico_1" unique="NORMAL" >
+				<column name="sku" />
+			</index>
+			<index name="idx_app_historico_2" unique="NORMAL" >
+				<column name="codigo" />
+			</index>
+			<index name="idx_app_historico_3" unique="NORMAL" >
+				<column name="tipo" />
+			</index>
+			<fk name="fk_app_historico" to_schema="fitsportbalsem_app" to_table="app_revendedor" >
+				<fk_column name="revendedor" pk="nome" />
+			</fk>
+			<fk name="fk_app_historico_app_membro" to_schema="fitsportbalsem_app" to_table="app_membro" >
+				<fk_column name="cliente" pk="nome" />
+			</fk>
+			<fk name="fk_app_historico_app_produto" to_schema="fitsportbalsem_app" to_table="app_produto" >
+				<fk_column name="sku" pk="sku" />
+			</fk>
+			<fk name="fk_app_historico_app_codigos" to_schema="fitsportbalsem_app" to_table="app_codigos" >
+				<fk_column name="codigo" pk="cupao" />
+			</fk>
+			<fk name="fk_app_historico_tipo" to_schema="fitsportbalsem_app" to_table="app_historico_tipo" >
+				<fk_column name="tipo" pk="nome" />
+			</fk>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+		<table name="app_historico_tipo" >
+			<column name="id" type="int" jt="4" mandatory="y" autoincrement="y" />
+			<column name="nome" type="varchar" length="200" jt="12" mandatory="y" />
+			<index name="pk_app_historico_tipo" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_app_historico_tipo_0" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+		<table name="app_membro" >
+			<column name="id" type="int" jt="4" mandatory="y" unsigned="y" autoincrement="y" />
+			<column name="nome" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="username" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="data_registo" type="datetime" jt="93" mandatory="y" >
+				<defo>CURRENT_TIMESTAMP</defo>
+			</column>
+			<column name="socio" type="varchar" length="255" jt="12" />
+			<index name="pk_app_membro" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_app_membro" unique="NORMAL" >
+				<column name="socio" />
+			</index>
+			<index name="pk_app_membro_0" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<fk name="fk_app_membro_app_parceiro" to_schema="fitsportbalsem_app" to_table="app_parceiro" >
+				<fk_column name="socio" pk="nome" />
+			</fk>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+		<table name="app_parceiro" >
+			<column name="id" type="int" jt="4" mandatory="y" unsigned="y" autoincrement="y" />
+			<column name="nome" type="varchar" length="255" jt="12" />
+			<column name="codigo_promocao" type="varchar" length="200" jt="12" mandatory="y" />
+			<index name="pk_app_parceiro" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_app_parceiro_0" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<index name="idx_app_parceiro" unique="NORMAL" >
+				<column name="codigo_promocao" />
+			</index>
+			<fk name="fk_app_parceiro_app_codigos" to_schema="fitsportbalsem_app" to_table="app_codigos" >
+				<fk_column name="codigo_promocao" pk="cupao" />
+			</fk>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+		<table name="app_produto" >
+			<column name="id" type="int" jt="4" mandatory="y" autoincrement="y" />
+			<column name="nome" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="preco" type="float" length="0" jt="7" mandatory="y" />
+			<column name="sku" type="int" jt="4" mandatory="y" unsigned="y" />
+			<column name="img" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="desconto" type="int" jt="4" unsigned="y" >
+				<comment><![CDATA[em %]]></comment>
+			</column>
+			<index name="pk_app_produto" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_app_produto_0" unique="UNIQUE" >
+				<column name="sku" />
+			</index>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+		<table name="app_revendedor" >
+			<column name="id" type="int" jt="4" mandatory="y" unsigned="y" autoincrement="y" />
+			<column name="nome" type="varchar" length="200" jt="12" mandatory="y" />
+			<index name="pk_app_revendedor" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_app_revendedor_0" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+		<table name="app_revendedor_stock" >
+			<column name="id" type="int" jt="4" mandatory="y" autoincrement="y" />
+			<column name="sku" type="int" jt="4" mandatory="y" unsigned="y" />
+			<column name="revendedor" type="varchar" length="200" jt="12" mandatory="y" />
+			<index name="pk_app_revendedor_stock" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_app_revendedor_stock" unique="NORMAL" >
+				<column name="sku" />
+			</index>
+			<index name="idx_app_revendedor_stock_0" unique="NORMAL" >
+				<column name="revendedor" />
+			</index>
+			<fk name="fk_app_revendedor_stock" to_schema="fitsportbalsem_app" to_table="app_produto" >
+				<fk_column name="sku" pk="sku" />
+			</fk>
+			<fk name="fk_app_revendedor_stock-revendedor" to_schema="fitsportbalsem_app" to_table="app_revendedor" >
+				<fk_column name="revendedor" pk="nome" />
+			</fk>
+			<storage><![CDATA[engine=InnoDB]]></storage>
+		</table>
+	</schema>
+	<connector name="fit-app" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-5.1.40-bin.jar" driver_desc="Standard" host="localhost" port="8889" instance="fitsportbalsem_app" user="root" passwd="anVuaG85OQ==" />
+	<layout name="Default Layout" id="Layout_10efd64" show_relation="columns" >
+		<entity schema="fitsportbalsem_app" name="app_revendedor" color="bcd5f1" x="400" y="64" />
+		<entity schema="fitsportbalsem_app" name="app_revendedor_stock" color="bcd5f1" x="624" y="48" />
+		<entity schema="fitsportbalsem_app" name="app_codigos_tipo" color="bcd5f1" x="208" y="432" />
+		<entity schema="fitsportbalsem_app" name="app_codigos" color="bcd5f1" x="64" y="288" />
+		<entity schema="fitsportbalsem_app" name="app_parceiro" color="bcd5f1" x="48" y="64" />
+		<entity schema="fitsportbalsem_app" name="app_membro" color="bcd5f1" x="272" y="64" />
+		<entity schema="fitsportbalsem_app" name="app_produto" color="bcd5f1" x="592" y="256" />
+		<entity schema="fitsportbalsem_app" name="app_historico_tipo" color="bcd5f1" x="544" y="448" />
+		<entity schema="fitsportbalsem_app" name="app_historico" color="bcd5f1" x="336" y="288" />
+	</layout>
+</project>
