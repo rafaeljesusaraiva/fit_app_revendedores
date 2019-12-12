@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>APP Revendedor | Fit Sportbalsem</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- FAVICON Start -->
+        <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+        <link rel="manifest" href="img/favicon/site.webmanifest">
+        <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="img/favicon/favicon.ico">
+        <meta name="msapplication-TileColor" content="#2b5797">
+        <meta name="msapplication-config" content="img/favicon/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <!-- FAVICON End -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link href="css/openSans.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/revendedor.css">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/instascan.min.js"></script>
+    </head>
+    <body>
+        <div class="main-container">
+            <div class="bg-container">
+                <div class="top-circles"></div>
+                <div class="bottom-circles"></div>
+            </div>
+            <div class="container">
+                <div class="flex-container">
+                    <video id="preview" style="width:320px;background-color:black;"></video>
+                    <b id="content"></b>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/background.js" async defer></script>
+        <script>
+            let scanner = new Instascan.Scanner({
+                video: document.getElementById('preview')
+            });
+            scanner.addListener('scan', function (content) {
+                scanner.stop();
+                document.getElementById('content').innerText = content;
+                document.getElementById('preview').style.display = 'hidden';
+            });
+            Instascan.Camera.getCameras().then(cameras => {
+                if (cameras.length > 0)
+                    scanner.start(cameras[0]);
+                else
+                    alert("Camera não existente ou desativada!");
+            });
+        </script>
+    </body>
+</html>

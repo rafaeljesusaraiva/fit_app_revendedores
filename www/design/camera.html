@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/instascan.min.js"></script>
+    </head>
+    <body>
+        <video id="preview" style="width:480px;height:320px;"></video>
+        <b id="content"></b>
+        <script>
+            let scanner = new Instascan.Scanner({
+                video: document.getElementById('preview')
+            });
+            scanner.addListener('scan', function (content) {
+                document.getElementById('content').innerText = content;
+                scanner.stop();
+            });
+            Instascan.Camera.getCameras().then(cameras => {
+                if (cameras.length > 0)
+                    scanner.start(cameras[0]);
+                else
+                    alert("Camera não existente ou desativada!");
+            });
+        </script>
+    </body>
+</html>
