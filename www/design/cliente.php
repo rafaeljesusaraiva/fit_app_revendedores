@@ -4,12 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
     include './libs/phpqrcode/qrlib.php'; 
     $text = "Teste1234"; 
-    
-    // $path variable store the location where to  
-    // store image and $file creates directory name 
-    // of the QR code file by using 'uniqid' 
-    // uniqid creates unique id based on microtime 
-    $path = './img/'; 
+    $path = './img/temp/'; 
     $file = $path.uniqid().".png"; 
     
     // $ecc stores error correction capability('L') 
