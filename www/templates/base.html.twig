@@ -1,0 +1,28 @@
+{{ include('include/head.html.twig') }}
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}{% endblock %}
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    <link href="/fonts/opensans/font-style.css" rel="stylesheet"/> 
+    <script src="https://unpkg.com/@ionic/core@4.0.0-beta.13/dist/ionic.js"></script>
+    <link href="https://unpkg.com/@ionic/core@4.0.0-beta.13/css/ionic.bundle.css" rel="stylesheet"/> 
+    <script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    {% block body %}{% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+    <script>
+        // Avoid pinch zoom
+        document.documentElement.addEventListener('gesturestart', function (event)
+        {    event.preventDefault();
+        }, false);
+    </script>
+</body>
+</html>
